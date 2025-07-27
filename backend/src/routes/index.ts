@@ -48,7 +48,7 @@ router.delete(
 );
 
 // Public
-router.get("/catalog", courseController.findActiveCoursesController);
+router.get("/courses/public", courseController.findActiveCoursesController);
 
 // Protected
 router.post(

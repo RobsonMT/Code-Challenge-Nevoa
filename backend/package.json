@@ -1,13 +1,12 @@
 {
   "name": "authentication-crud-node",
   "version": "1.0.0",
-  "main": "src/server.js",
+  "main": "dist/server.js",
   "license": "MIT",
-  "engines": {
-    "node": ">=17"
-  },
   "scripts": {
     "dev": "ts-node-dev --inspect --files --rs src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:create": "typeorm-ts-node-commonjs migration:create",
     "migration:generate": "typeorm-ts-node-commonjs migration:generate -d ./src/data-source.ts",
@@ -22,7 +21,7 @@
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.4.0",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "0.3.6",
+    "typeorm": "^0.3.25",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"
   },
@@ -30,7 +29,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^9.0.7",
-    "@types/node": "^16.11.10",
+    "@types/node": "20",
     "@types/pg": "^8.6.5",
     "@types/reflect-metadata": "^0.1.0",
     "@types/uuid": "^8.3.4",
@@ -39,6 +38,6 @@
     "sucrase": "^3.21.0",
     "ts-node": "10.7.0",
     "ts-node-dev": "^1.1.8",
-    "typescript": "4.5.2"
+    "typescript": "^5.0.0"
   }
 }

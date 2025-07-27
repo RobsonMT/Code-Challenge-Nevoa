@@ -5,8 +5,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 AppDataSource.initialize()
-  .then(() => {
+  .then(async () => {
     console.log("Database connected.");
+
+    await AppDataSource.runMigrations();
 
     const PORT = process.env.RUN_PORT ?? 3000;
 

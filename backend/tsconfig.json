@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
     "lib": [
-      "es5",
       "es6"
     ],
-    "target": "es5",
+    "skipLibCheck": true,
+    "target": "es2017",
     "module": "commonjs",
     "moduleResolution": "node",
-    "rootDir": "./",
+    "rootDir": "./src",
     "outDir": "./dist",
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
