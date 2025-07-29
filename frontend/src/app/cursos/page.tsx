@@ -71,10 +71,15 @@ export default function Courses() {
   };
 
   useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    setToken(storedToken);
+  }, []);
+
+  useEffect(() => {
     const fetchCursos = async () => {
       try {
         const res = await api.get("/courses", {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         setCourses(res.data);
       } catch (error) {
@@ -84,11 +89,6 @@ export default function Courses() {
 
     fetchCursos();
   }, [token]);
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    setToken(storedToken);
-  }, []);
 
   return (
     <main>
@@ -104,78 +104,79 @@ export default function Courses() {
           </button>
         </div>
         <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 hover:cursor-pointer">
-          {courses.map((course: ICourse) => (
-            <div
-              key={course.id}
-              className="border border-blue-200 p-4 rounded shadow flex-col"
-            >
-              <AddCourseModal
-                isOpen={isAddModalOpen}
-                onClose={() => setIsAddModalOpen(false)}
-                onSave={handleAddCourse}
-              />
+          <AddCourseModal
+            isOpen={isAddModalOpen}
+            onClose={() => setIsAddModalOpen(false)}
+            onSave={handleAddCourse}
+          />
 
-              <EditCourseModal
-                isOpen={isEditModalOpen}
-                onClose={() => {
-                  setEditModalOpen(false);
-                  setSelectedCourse(null); // opcional: limpa após fechar
-                }}
-                course={selectedCourse as ICourse}
-                onSave={handleSave}
-              />
+          <EditCourseModal
+            isOpen={isEditModalOpen}
+            onClose={() => {
+              setEditModalOpen(false);
+              setSelectedCourse(null); // opcional: limpa após fechar
+            }}
+            course={selectedCourse as ICourse}
+            onSave={handleSave}
+          />
 
-              <DeleteConfirmModal
-                isOpen={isDeleteModalOpen}
-                onCancel={() => setDeleteModalOpen(false)}
-                onConfirm={handleDelete}
-              />
-              <div className="flex">
-                <Image
-                  src={`${course.imageUrl}`}
-                  alt={course.title}
-                  width={150}
-                  height={100}
-                />
-                <div>
-                  <h2 className="text-xl font-semibold">{course.title}</h2>
+          <DeleteConfirmModal
+            isOpen={isDeleteModalOpen}
+            onCancel={() => setDeleteModalOpen(false)}
+            onConfirm={handleDelete}
+          />
+          {Boolean(courses) &&
+            courses.map((course: ICourse) => (
+              <div
+                key={course.id}
+                className="border border-blue-200 p-4 rounded shadow flex-col"
+              >
+                <div className="flex">
+                  <Image
+                    src={`${course.imageUrl}`}
+                    alt={course.title}
+                    width={150}
+                    height={100}
+                  />
+                  <div>
+                    <h2 className="text-xl font-semibold">{course.title}</h2>
 
-                  <div className="flex gap-1">
-                    <TbFileDescription className="text-blue-200" size={20} />
-                    <p>{course.description}</p>
-                  </div>
-                  <div className="flex gap-1">
-                    <GiDuration className="text-blue-200" size={20} />
-                    <p>{course.duration}</p>
-                  </div>
-                  <div className="flex gap-1">
-                    {course.status ? (
-                      <BsBookmarkCheck className="text-blue-200" size={20} />
-                    ) : (
-                      <BsBookmarkDash className="text-blue-200" size={20} />
-                    )}
-                    <p>{course.status ? "ativo" : "inativo"}</p>
+                    <div className="flex gap-1">
+                      <TbFileDescription className="text-blue-200" size={20} />
+                      <p>{course.description}</p>
+                    </div>
+                    <div className="flex gap-1">
+                      <GiDuration className="text-blue-200" size={20} />
+                      <p>{course.duration}</p>
+                    </div>
+                    <div className="flex gap-1">
+                      {course.status ? (
+                        <BsBookmarkCheck className="text-blue-200" size={20} />
+                      ) : (
+                        <BsBookmarkDash className="text-blue-200" size={20} />
+                      )}
+                      <p>{course.status ? "ativo" : "inativo"}</p>
+                    </div>
                   </div>
                 </div>
+                <div className="flex gap-4">
+                  <button
+                    type="submit"
+                    onClick={() => handleEditClick(course)}
+                    className="mt-6 flex w-full justify-center rounded-md bg-blue-200 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-gray-300 focus-visible:outline-2 focus-visible:outline-offset-2 hover:cursor-pointer"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={() => handleDeleteClick(course)}
+                    className="mt-6 flex w-full justify-center rounded-md bg-blue-200 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-gray-300 focus-visible:outline-2 focus-visible:outline-offset-2 hover:cursor-pointer"
+                  >
+                    Excluir
+                  </button>
+                </div>
               </div>
-              <div className="flex gap-4">
-                <button
-                  type="submit"
-                  onClick={() => handleEditClick(course)}
-                  className="mt-6 flex w-full justify-center rounded-md bg-blue-200 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-gray-300 focus-visible:outline-2 focus-visible:outline-offset-2 hover:cursor-pointer"
-                >
-                  Editar
-                </button>
-                <button
-                  type="submit"
-                  onClick={() => handleDeleteClick(course)}
-                  className="mt-6 flex w-full justify-center rounded-md bg-blue-200 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-gray-300 focus-visible:outline-2 focus-visible:outline-offset-2 hover:cursor-pointer"
-                >
-                  Excluir
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </main>
