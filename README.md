@@ -65,11 +65,13 @@ yarn install
 Crie o arquivo `backend/.env` com o conteúdo abaixo:
 
 ```env
-POSTGRES_USER=postgres
-POSTGRES_PWD=1234
-POSTGRES_DB=course_db
-DB_HOST=localhost
-SECRET_KEY=secret
+DB_HOST=localhost               
+DB_PORT=5432              
+DB_USERNAME=postgres
+DB_PASSWORD=1234
+DB_NAME=course_db
+
+SECRET_KEY=
 EXPIRES_IN=1h
 RUN_PORT=8000
 ```
